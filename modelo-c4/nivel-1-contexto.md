@@ -4,16 +4,17 @@ Este diagrama de contexto establece los límites del **Sistema de Créditos Hipo
 
 ## Diagrama de Contexto Visual
 
-![Diagrama de Contexto](https://www.plantuml.com/plantuml/svg/bLDDRjim4BxxL-WaN46TWej3aB0KYYbO41WJm0DkGL1E6XU88X_Nn5UoD_JlzF12tX-fFWe3eX8X61H7B25u08A9eD3gWl8B5h3aX34Z_5H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1H2QW8X0H7Z1b28W8X2q4H0u1)
-*(Nota: El diagrama superior se genera dinámicamente a partir del código fuente)*
+![Diagrama de Contexto](nivel1.png)
 
 ---
 
 ## Código Fuente de la Arquitectura (PlantUML)
 
+El siguiente código respalda el diagrama superior, cumpliendo con el estándar de arquitectura como código para su futura mantenibilidad:
+
 ```plantuml
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include [https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml](https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml)
 
 LAYOUT_WITH_LEGEND()
 
