@@ -12,7 +12,7 @@ sequenceDiagram
     actor Cliente as Cliente (Usuario)
     participant SPA as SPA Web (Angular/React)
     participant API as Backend API (.NET 8)
-    database DB as Base de Datos (PostgreSQL)
+    participant DB as Base de Datos (PostgreSQL)
     participant Broker as Message Broker (RabbitMQ)
     participant Worker as Worker de Evaluación
     participant Ext as Central de Riesgo (Equifax)
@@ -22,8 +22,8 @@ sequenceDiagram
     Cliente->>SPA: Completa formulario y da clic en "Evaluar"
     SPA->>API: POST /v1/solicitudes (Datos Financieros)
     activate API
-    API->>DB: INSERT INTO solicitudes (Estado: 'Pendiente')
-    API->>Broker: Publicar Evento 'SolicitudRegistradaEvent'
+    API->>DB: INSERT INTO solicitudes (Estado Pendiente)
+    API->>Broker: Publicar Evento SolicitudRegistradaEvent
     API-->>SPA: HTTP 202 Accepted (Retorna SolicitudId)
     deactivate API
     
@@ -31,32 +31,32 @@ sequenceDiagram
 
     %% Fase 2: Procesamiento en Segundo Plano
     Note over Broker, Ext: Fase 2: Procesamiento Asíncrono (Background)
-    Broker->>Worker: Despacha 'SolicitudRegistradaEvent'
+    Broker->>Worker: Despacha SolicitudRegistradaEvent
     activate Worker
     
-    Worker->>Ext: GET /v1/scores/{dni} (Consulta deudas)
+    Worker->>Ext: GET /v1/scores/dni (Consulta deudas)
     activate Ext
     Note over Worker, Ext: Integración con alta latencia (5-10 segundos)
     Ext-->>Worker: Retorna Historial y Score Crediticio
     deactivate Ext
 
-    Note over Worker: El Worker ejecuta las Reglas de Negocio <br/> (Cálculo de capacidad de pago e ingresos)
+    Note over Worker: El Worker ejecuta las Reglas de Negocio <br/> (Capacidad de pago e ingresos)
     
     alt Cliente Califica
-        Worker->>DB: UPDATE solicitudes SET estado = 'PreAprobado' WHERE id = SolicitudId
+        Worker->>DB: UPDATE solicitudes SET estado = PreAprobado
     else Cliente No Califica
-        Worker->>DB: UPDATE solicitudes SET estado = 'Rechazado' WHERE id = SolicitudId
+        Worker->>DB: UPDATE solicitudes SET estado = Rechazado
     end
     deactivate Worker
 
     %% Fase 3: Consulta de Estado (Polling)
     Note over Cliente, DB: Fase 3: Sincronización del Frontend (Polling)
     loop Cada 3 segundos hasta finalizar
-        SPA->>API: GET /v1/solicitudes/{id}/status
+        SPA->>API: GET /v1/solicitudes/id/status
         activate API
-        API->>DB: SELECT estado FROM solicitudes WHERE id = id
-        DB-->>API: Retorna Estado ('PreAprobado')
-        API-->>SPA: HTTP 200 OK (Estado: 'PreAprobado')
+        API->>DB: SELECT estado FROM solicitudes
+        DB-->>API: Retorna Estado (PreAprobado)
+        API-->>SPA: HTTP 200 OK (Estado PreAprobado)
         deactivate API
     end
 
